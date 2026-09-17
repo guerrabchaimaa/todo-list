@@ -1,0 +1,216 @@
+<todo html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="todo-container">
+        <h2>My To-Do List</h2>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <button id="addTaskBtn">Add</button>
+        </div>
+        <ul id="taskList">
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<style type="text/css">
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7baba;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.todo-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 350px;
+}
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 10px 20px;
+    background-color: #f7baba;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+li button {
+    background-color: #ff4d4d;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+li input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+li span {
+    flex: 1;
+}
+</style>
+<script type="text/javascript">
+    const taskInput = document.getElementById('taskInput');
+const addTaskBtn = document.getElementById('addTaskBtn');
+const taskList = document.getElementById('taskList');
+
+addTaskBtn.addEventListener('click', function() {
+    const taskText = taskInput.value.trim();
+    if (taskText !== '') {
+        const li = document.createElement('li');
+        li.textContent = taskText;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.onclick = function() {
+            taskList.removeChild(li);
+        };
+        
+        li.appendChild(deleteBtn);
+        taskList.appendChild(li);
+        taskInput.value = '';
+    }
+});
+
+// دالة لحفظ المهام في localStorage
+function saveTasks() {
+    const tasks = [];
+    taskList.querySelectorAll('li').forEach(li => {
+        tasks.push(li.firstChild.textContent);
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// دالة لجلب المهام المحفوظة عند فتح الصفحة
+function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    if (tasks) {
+        tasks.forEach(taskText => {
+            createTaskElement(taskText);
+        });
+    }
+}
+
+// دالة لإنشاء عنصر المهمة
+function createTaskElement(taskText) {
+    const li = document.createElement('li');
+    li.textContent = taskText;
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.onclick = function() {
+        taskList.removeChild(li);
+        saveTasks(); // التحديث بعد الحذف
+    };
+    
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
+}
+
+addTaskBtn.addEventListener('click', function() {
+    const taskText = taskInput.value.trim();
+    if (taskText !== '') {
+        createTaskElement(taskText);
+        saveTasks(); // التحديث بعد الإضافة
+        taskInput.value = '';
+    }
+});
+
+// تحميل المهام عند بداية التشغيل
+window.onload = loadTasks;
+// دالة لحفظ المهام في localStorage
+function saveTasks() {
+    const tasks = [];
+    taskList.querySelectorAll('li').forEach(li => {
+        tasks.push(li.firstChild.textContent);
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// دالة لجلب المهام المحفوظة عند فتح الصفحة
+function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    if (tasks) {
+        tasks.forEach(taskText => {
+            createTaskElement(taskText);
+        });
+    }
+}
+
+// دالة لإنشاء عنصر المهمة
+function createTaskElement(taskText) {
+    const li = document.createElement('li');
+    li.textContent = taskText;
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.onclick = function() {
+        taskList.removeChild(li);
+        saveTasks(); // التحديث بعد الحذف
+    };
+    
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
+}
+
+addTaskBtn.addEventListener('click', function() {
+    const taskText = taskInput.value.trim();
+    if (taskText !== '') {
+        createTaskElement(taskText);
+        saveTasks(); // التحديث بعد الإضافة
+        taskInput.value = '';
+    }
+});
+
+// تحميل المهام عند بداية التشغيل
+window.onload = loadTasks;
+</script>
